@@ -1,4 +1,4 @@
-//@Project
+/*@Project*/
 
 /*
   Hey Ya !! Guys!!
@@ -8,9 +8,9 @@
   (Studying at National Institute Of Technology,Agartala,India)
 */
 
-//User Info Below
+/*User Info Below */
 
-/*  A Graph Header File . Include it in your library and enjoy using some basic funtions related to Graph data structure.
+/*  A Graph Header File . Include it in your library and enjoy using some basic functions related to Graph data structure.
     Functionalities this file includes are following:
 
     1.Creating a graph i.e using adjacency matrix;
@@ -25,7 +25,7 @@
 
   Developer's Message::
   Thanks for using it. Do give your valuable feedback or for any query contact at udit1195@gmail.com OR at pingaldixit@gmail.com.
-  We shall be adding more functions from time to time.
+  We shall be adding more funcions from time to time.
   Till than,#Happy Coding;
 
  */
@@ -36,9 +36,9 @@
 
 int adj[MAX][MAX]={0}; /*Adjacency Matrix ,program will be working upon*/
 int number=0;
+int P[MAX][MAX]={0}; /*Path Matrix to be created by Warshall's Algorithm*/
 
-
-void create_undirgraph(int n)  //function for creating undirected graph;  n is no of vertices.
+void create_undirgraph(int n)  /*function for creating undirected graph;  n is no of vertices. */
 {
  number=n;
  int max_edges=n*(n-1)/2;
@@ -49,15 +49,15 @@ for(i=1;i<=max_edges;i++)
       printf("Enter edge %d(-1 -1 to quit): ",i);
       scanf("%d %d",&origin,&destin);
       //printf("abc");
-      if((origin==-1) && (destin==-1))      //When user wants to  quit
+      if((origin==-1) && (destin==-1))      /*When user wants to  quit*/
          break;
 
-      if(origin>=n || destin >=n || origin<0 || destin<0)    //Checking If The Entries Are Valid Or not
+      if(origin>=n || destin >=n || origin<0 || destin<0)    /*Checking If The Entries Are Valid Or not*/
         {
            printf("Invalid vertex!!\n");
            i--;
         }
-       else                              // Valid So updating the adjacency matrix
+       else                              /* Valid So updating the adjacency matrix*/
        {
            adj[origin][destin]=1;
        }
@@ -66,7 +66,7 @@ for(i=1;i<=max_edges;i++)
 
 }
 
-void display_graph()   // That is to display adjacency matrix
+void display_graph()   /* That is to display adjacency matrix */
 {
     int i,j=0;
     for(i=0;i<number;i++){
@@ -76,3 +76,37 @@ void display_graph()   // That is to display adjacency matrix
     }
 }
 
+void create_pathmat()   /*For Creating a path matrix to get to know if two vertices are connected or not. */
+{
+  int i,j,k;
+    for(i=0;i<number;i++)
+        for(j=0;j<number;j++)
+        P[i][j]=adj[i][j];
+
+    for(k=0;k<number;k++)
+    {
+        for(j=0;j<number;j++)
+            for(j=0;j<number;j++)
+                P[i][j]=(P[i][j]||(P[i][k] && P[k][j]));
+    }
+
+}
+
+void disp_pathmat()   /*To display the Path Matrix created. */
+{
+    int i,j;
+
+    for(i=0;i<number;i++)
+        for(j=0;j<number;j++)
+         printf("%d",P[i][j]);
+
+}
+
+int isConnected(int u,int v)   /*Returns 1 if the vertices are connected that is they have a path between them, else the function returns 0. */
+{
+    if(P[u][v]==1)
+        return 1;
+    else
+        return 0;
+
+}
